@@ -26,6 +26,7 @@ func Start() {
 
 	// Routes
 	api.POST("/", handlers.EchoHandler)
+	api.POST("/ping", handlers.PingHandler)
 
 	// Start server and configure gracehttp to gracefully shut it down
 	api.Logger.SetLevel(log.INFO)

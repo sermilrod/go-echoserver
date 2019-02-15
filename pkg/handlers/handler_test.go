@@ -22,3 +22,17 @@ func TestEchoHandler(t *testing.T) {
 		assert.Equal(t, "Echo!", rec.Body.String())
 	}
 }
+
+func TestPingHandler(t *testing.T) {
+	// Setup
+	e := echo.New()
+	req := httptest.NewRequest(http.MethodGet, "/", nil)
+	rec := httptest.NewRecorder()
+	c := e.NewContext(req, rec)
+
+	// Assertions
+	if assert.NoError(t, PingHandler(c)) {
+		assert.Equal(t, http.StatusOK, rec.Code)
+		assert.Equal(t, "Pong!", rec.Body.String())
+	}
+}
