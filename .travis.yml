@@ -1,0 +1,6 @@
+sudo: false # use the fast container-based runner rather than vm
+services:
+  - 'docker'
+script:
+  - docker build -t sermilrod/go-echoserver:$TRAVIS_PULL_REQUEST_SHA . # tests run in the docker build
+  - docker push sermilrod/go-echoserver:$TRAVIS_PULL_REQUEST_SHA
