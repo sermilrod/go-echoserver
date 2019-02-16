@@ -15,3 +15,8 @@ func EchoHandler(c echo.Context) error {
 func PingHandler(c echo.Context) error {
 	return c.String(http.StatusOK, "Pong!")
 }
+
+// HealthzHandler is the handler for the /healtz endpoint
+func HealthzHandler(c echo.Context) error {
+	return c.String(http.StatusOK, "I am alive!")
+}

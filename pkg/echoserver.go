@@ -27,6 +27,7 @@ func Start() {
 	// Routes
 	api.GET("/", handlers.EchoHandler)
 	api.GET("/ping", handlers.PingHandler)
+	api.GET("/healthz", handlers.HealthzHandler)
 
 	// Start server and configure gracehttp to gracefully shut it down
 	api.Logger.SetLevel(log.INFO)
