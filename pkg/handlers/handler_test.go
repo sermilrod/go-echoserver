@@ -36,3 +36,18 @@ func TestPingHandler(t *testing.T) {
 		assert.Equal(t, "Pong!", rec.Body.String())
 	}
 }
+
+
+func TestHealthzHandler(t *testing.T) {
+	// Setup
+	e := echo.New()
+	req := httptest.NewRequest(http.MethodGet, "/", nil)
+	rec := httptest.NewRecorder()
+	c := e.NewContext(req, rec)
+
+	// Assertions
+	if assert.NoError(t, HealthzHandler(c)) {
+		assert.Equal(t, http.StatusOK, rec.Code)
+		assert.Equal(t, "I am alive!", rec.Body.String())
+	}
+}
