@@ -1,0 +1,37 @@
+version: 2
+jobs:
+  build:
+    working_directory: /go/src/github.com/sermilrod/go-echoserver
+    docker:
+      - image: circleci/golang:1.11
+    steps:
+      - checkout
+      - run: go get github.com/golang/dep/cmd/dep
+      - run: dep ensure
+      - run: go test -v ./... --benchmem
+      - run: CGO_ENABLED=0 GOOS=linux go build
+      - persist_to_workspace:
+          root: .
+          paths:
+            - go-echoserver
+  push:
+    working_directory: /app
+    docker:
+      - image: docker:stable-git
+    steps:
+      - checkout
+      - setup_remote_docker
+      #- run: docker build --cache-from=app -t app .
+      - attach_workspace:
+          at: /workspace
+      - run: cp /workspace/go-echoserver .
+      - run: docker build -t sermilrod/go-echoserver .
+      - run: docker push sermilrod/go-echoserver
+workflows:
+  version: 2
+  build:
+    jobs:
+      - build
+      - push:
+          requires:
+            - build
